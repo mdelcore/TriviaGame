@@ -1,5 +1,49 @@
 $(document).ready(function() {
 
+	// Variables
+	var startScreen;
+	var gameHTML;
+	var counter = 30;
+	var questionArray = [
+						"What is the capital of Australia?",
+						"What is the capital of Liberia?",
+						"What is the capital of Taiwan?",
+						"What is the capital of Japan?",
+						"What is the capital of China?",
+						"What is the capital of Turkey?",
+						"What is the capital of Colombia?",
+						"What is the capital of India?"
+						];
+	var answerArray = [["Canberra", "Melbourne", "Sydney", "Darwin"], ["Arthington","Monrovia","Tuzon","Marshall"], ["Tainan City", "Taichung", "Taipei", "Hsinchu"], ["Kyoto","Hiroshima","Tokyo","Osaka"], ["Hong Kong", "Macau", "Shanghai", "Beijing"], ["Ankara","Istanbul","Antalya","Bursa"], ["Medellin", "Bogota", "Cartagena", "Cali"], ["Mumbai","Hyderabad","Bangalore","New Delhi"]];
+	var imageArray = [
+						"<img class='flags center-block img-right' src='assets/images/australia.png'>",
+						"<img class='flags center-block img-right' src='assets/images/liberia.png'>",
+						"<img class='flags center-block img-right' src='assets/images/taiwan.png'>",
+						"<img class='flags center-block img-right' src='assets/images/japan.png'>",
+						"<img class='flags center-block img-right' src='assets/images/china.png'>",
+						"<img class='flags center-block img-right' src='assets/images/turkey.png'>",
+						"<img class='flags center-block img-right' src='assets/images/colombia.png'>",
+						"<img class='flags center-block img-right' src='assets/images/india.png'>"
+						];
+	var correctAnswers = [
+							"A. Canberra",
+							"B. Monrovia",
+							"C. Taipei",
+							"C. Tokyo",
+							"D. Beijing",
+							"A. Ankara",
+							"B. Bogota",
+							"D. New Delhi"
+							];
+	var questionCounter = 0;
+	var selecterAnswer;
+	var theClock;
+	var correctTally = 0;
+	var incorrectTally = 0;
+	var unansweredTally = 0;
+	var clickSound = new Audio("assets/sounds/click.mp3");
+
+
 	function initialScreen() {
 		startScreen = "<p class='text-center main-button-container'><a class='btn btn-primary btn-lg btn-block start-button' href='#' role='button'>Start Quiz</a></p>";
 		$('.mainContent').html(startScreen);
@@ -39,7 +83,7 @@ $('body').on('click', '.reset-button', function(event) {
 	resetGame();
 });
 
-}); //closes $(document).ready(function()
+
 
 // Functions
 
@@ -65,8 +109,16 @@ function generateLoss() {
 }
 
 function generateHTML() {
-	gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>30</span></p><p class='text-center'>" + questionArray[questionCounter] + "</p><p class='first-answer answer'>A. " + answerArray[questionCounter][0] + "</p><p class='answer'>B. "+answerArray[questionCounter][1]+"</p><p class='answer'>C. "+answerArray[questionCounter][2]+"</p><p class='answer'>D. "+answerArray[questionCounter][3]+"</p>";
-	$(".mainContent").html(gameHTML);
+
+	var questionHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>30</span></p><p class='text-center'>" + questionArray[questionCounter] + "</p>";
+	$(".mainContent").html(questionHTML);
+	for (var i = 0; i < answerArray[questionCounter].length; i++) {
+		var answerHTML = "</p><p class='first-answer answer'>A. " + answerArray[questionCounter][i] + "</p>";
+		$(".mainContent").append(answerHTML);
+	}
+
+	// gameHTML = "<p class='text-center timer-p'>Time Remaining: <span class='timer'>30</span></p><p class='text-center'>" + questionArray[questionCounter] + "</p><p class='first-answer answer'>A. " + answerArray[questionCounter][0] + "</p><p class='answer'>B. "+answerArray[questionCounter][1]+"</p><p class='answer'>C. "+answerArray[questionCounter][2]+"</p><p class='answer'>D. "+answerArray[questionCounter][3]+"</p>";
+
 }
 
 function wait() {
@@ -106,53 +158,11 @@ function resetGame() {
 	incorrectTally = 0;
 	unansweredTally = 0;
 	counter = 30;
-	
+
 	generateHTML();
 	timerWrapper();
 }
 
-// Variables
-
-var startScreen;
-var gameHTML;
-var counter = 30;
-var questionArray = [
-					"What is the capital of Australia?", 
-					"What is the capital of Liberia?", 
-					"What is the capital of Taiwan?", 
-					"What is the capital of Japan?", 
-					"What is the capital of China?", 
-					"What is the capital of Turkey?", 
-					"What is the capital of Colombia?", 
-					"What is the capital of India?"
-					];
-var answerArray = [["Canberra", "Melbourne", "Sydney", "Darwin"], ["Arthington","Monrovia","Tuzon","Marshall"], ["Tainan City", "Taichung", "Taipei", "Hsinchu"], ["Kyoto","Hiroshima","Tokyo","Osaka"], ["Hong Kong", "Macau", "Shanghai", "Beijing"], ["Ankara","Istanbul","Antalya","Bursa"], ["Medellin", "Bogota", "Cartagena", "Cali"], ["Mumbai","Hyderabad","Bangalore","New Delhi"]];
-var imageArray = [
-					"<img class='flags center-block img-right' src='assets/images/australia.png'>",
-					"<img class='flags center-block img-right' src='assets/images/liberia.png'>",
-					"<img class='flags center-block img-right' src='assets/images/taiwan.png'>",
-					"<img class='flags center-block img-right' src='assets/images/japan.png'>",
-					"<img class='flags center-block img-right' src='assets/images/china.png'>",
-					"<img class='flags center-block img-right' src='assets/images/turkey.png'>",
-					"<img class='flags center-block img-right' src='assets/images/colombia.png'>",
-					"<img class='flags center-block img-right' src='assets/images/india.png'>"
-					];
-var correctAnswers = [
-						"A. Canberra", 
-						"B. Monrovia", 
-						"C. Taipei", 
-						"C. Tokyo", 
-						"D. Beijing", 
-						"A. Ankara", 
-						"B. Bogota", 
-						"D. New Delhi"
-						];
-var questionCounter = 0;
-var selecterAnswer;
-var theClock;
-var correctTally = 0;
-var incorrectTally = 0;
-var unansweredTally = 0;
-var clickSound = new Audio("assets/sounds/click.mp3");
 
 
+}); //closes $(document).ready(function()
